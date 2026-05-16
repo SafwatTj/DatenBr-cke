@@ -12,7 +12,7 @@ class DatenBrueckeGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("DatenBrücke - Excel/PDF Parser")
-        self.root.geometry("750x550")
+        self.root.geometry("750x580")
         self.root.configure(bg="#2c3e50")
 
         self.dateipfad = tk.StringVar()
@@ -28,8 +28,10 @@ class DatenBrueckeGUI:
         main_frame = tk.Frame(root, bg=bg_color)
         main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
 
-        # Titel
-        tk.Label(main_frame, text="DatenBrücke", font=("Arial", 20, "bold"), bg=bg_color, fg=fg_color).pack(pady=10)
+        # Titel und Entwickler wie in STEG.png
+        tk.Label(main_frame, text="DATENBRÜCKE", font=("Arial", 18, "bold"), bg=bg_color, fg="#f39c12").pack(pady=(10,0))
+        tk.Label(main_frame, text="Excel/PDF Parser | SQLite-Datenbank", font=("Arial", 9), bg=bg_color, fg="#bdc3c7").pack(pady=(0,5))
+        tk.Label(main_frame, text="entwickelt von SAFWAT BURKHONOV", font=("Arial", 8, "italic"), bg=bg_color, fg="#95a5a6").pack(pady=(0,15))
 
         # Dateipfad
         tk.Label(main_frame, text="Dateipfad:", bg=bg_color, fg=fg_color, font=("Arial", 10)).pack(anchor=tk.W)
@@ -43,7 +45,7 @@ class DatenBrueckeGUI:
         self.modus_frame = tk.Frame(main_frame, bg=bg_color)
         self.modus_frame.pack(anchor=tk.W, pady=5)
         self.modus_var = tk.StringVar(value="excel")
-        tk.Radiobutton(self.modus_frame, text="📊 Excel", variable=self.modus_var, value="excel", bg=bg_color, fg=fg_color, selectcolor=bg_color, activebackground=bg_color, font=("Arial", 9)).pack(side=tk.LEFT, padx=10)
+        tk.Radiobutton(self.modus_frame, text="📊 Excel (.xlsx, .xls)", variable=self.modus_var, value="excel", bg=bg_color, fg=fg_color, selectcolor=bg_color, activebackground=bg_color, font=("Arial", 9)).pack(side=tk.LEFT, padx=10)
         tk.Radiobutton(self.modus_frame, text="📄 PDF", variable=self.modus_var, value="pdf", bg=bg_color, fg=fg_color, selectcolor=bg_color, activebackground=bg_color, font=("Arial", 9)).pack(side=tk.LEFT, padx=10)
 
         # Parsen Button
@@ -57,13 +59,14 @@ class DatenBrueckeGUI:
 
         create_tables()
         self.log("✅ Datenbank bereit (SQLite)")
+        self.log("📌 Entwickelt von Safwat Burkhonov")
 
     def log(self, nachricht):
         self.log_text.insert(tk.END, nachricht + "\n")
         self.log_text.see(tk.END)
 
     def datei_auswaehlen(self):
-        datei = filedialog.askopenfilename(filetypes=[("Excel Dateien", "*.xlsx"), ("PDF Dateien", "*.pdf")])
+        datei = filedialog.askopenfilename(filetypes=[("Excel Dateien", "*.xlsx *.xls"), ("PDF Dateien", "*.pdf")])
         if datei:
             self.dateipfad.set(datei)
             self.log(f"📁 Ausgewählt: {datei}")
@@ -87,6 +90,7 @@ class DatenBrueckeGUI:
             messagebox.showerror("Parser Fehler", ergebnis['fehler'])
             return
 
+        # In DB speichern
         db = SessionLocal()
         try:
             neuer_eintrag = Dokument(
