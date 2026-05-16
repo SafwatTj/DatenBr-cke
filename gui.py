@@ -21,14 +21,13 @@ class DatenBrueckeGUI:
         bg_color = "#2c3e50"
         fg_color = "#ecf0f1"
         btn_color = "#3498db"
-        btn_hover = "#2980b9"
         log_bg = "#34495e"
 
         # Hauptframe
         main_frame = tk.Frame(root, bg=bg_color)
         main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
 
-        # Titel und Entwickler wie in STEG.png
+        # Titel und Entwickler
         tk.Label(main_frame, text="DATENBRÜCKE", font=("Arial", 18, "bold"), bg=bg_color, fg="#f39c12").pack(pady=(10,0))
         tk.Label(main_frame, text="Excel/PDF Parser | SQLite-Datenbank", font=("Arial", 9), bg=bg_color, fg="#bdc3c7").pack(pady=(0,5))
         tk.Label(main_frame, text="entwickelt von SAFWAT BURKHONOV", font=("Arial", 8, "italic"), bg=bg_color, fg="#95a5a6").pack(pady=(0,15))
